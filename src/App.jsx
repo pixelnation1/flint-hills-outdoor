@@ -13,28 +13,18 @@ import {
 const phoneHref = `tel:${PHONE_TEL}`
 const textHref = `sms:${PHONE_TEL}`
 
-function LogoMark({ className = '' }) {
+const LOGO_SRC = '/images/flint-hills-outdoor-logo.png'
+const LOGO_ALT = 'Flint Hills Outdoor Co. lawn care in Emporia, Kansas'
+
+function BrandLogo({ className }) {
   return (
-    <svg
+    <img
       className={className}
-      viewBox="0 0 40 40"
-      fill="none"
-      aria-hidden="true"
-    >
-      <rect width="40" height="40" rx="6" fill="#F7F3EB" />
-      <path
-        d="M4 28C9 22 14 25 19 20C24 15 29 18 36 13V36H4V28Z"
-        fill="#C4A574"
-      />
-      <path
-        d="M4 31C11 26 16 30 22 25C28 20 32 24 36 21V36H4V31Z"
-        fill="#2D5A43"
-      />
-      <path
-        d="M4 34C13 30 19 33 26 29C31 26 34 28 36 27V36H4V34Z"
-        fill="#F7F3EB"
-      />
-    </svg>
+      src={LOGO_SRC}
+      alt={LOGO_ALT}
+      width="2172"
+      height="724"
+    />
   )
 }
 
@@ -177,11 +167,7 @@ function Header() {
     <header className="site-header">
       <div className="header-inner">
         <a className="brand" href="#top">
-          <LogoMark className="brand-mark" />
-          <span className="brand-text">
-            <span className="brand-kicker">Flint Hills</span>
-            <span className="brand-name">Outdoor Co.</span>
-          </span>
+          <BrandLogo className="brand-logo" />
         </a>
         <a className="btn btn-tan header-cta" href="#estimate">
           <span className="cta-full">Request an Estimate</span>
@@ -537,13 +523,9 @@ function Footer() {
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <div className="brand footer-brand-row">
-            <LogoMark className="brand-mark" />
-            <span className="brand-text">
-              <span className="brand-kicker">Flint Hills</span>
-              <span className="brand-name">Outdoor Co. LLC</span>
-            </span>
-          </div>
+          <a className="footer-logo-link" href="#top">
+            <BrandLogo className="footer-logo" />
+          </a>
           <p>
             Locally owned and operated by {OWNER_NAME} in {CITY}.
           </p>
