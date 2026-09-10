@@ -142,12 +142,16 @@ textarea {
   text-transform: uppercase;
 }
 
-.placeholder-note {
+.form-note {
   margin: 0.65rem 0 0;
   color: var(--muted);
   font-size: 0.82rem;
   letter-spacing: 0.01em;
-  overflow-wrap: anywhere;
+}
+
+.optional {
+  font-weight: 500;
+  color: var(--muted);
 }
 
 .btn {
@@ -166,6 +170,7 @@ textarea {
 
 .btn:focus-visible,
 .brand:focus-visible,
+.hero-callout:focus-visible,
 .contact-bar a:focus-visible,
 .site-footer a:focus-visible {
   outline: 2px solid var(--tan);
@@ -304,18 +309,12 @@ textarea {
   overflow: hidden;
 }
 
-.hero-inner {
-  position: relative;
-  z-index: 1;
-  padding: 2.4rem 1rem 8.5rem;
-}
-
 .hero .eyebrow {
   color: var(--tan);
 }
 
 .hero h1 {
-  max-width: 11ch;
+  max-width: 14ch;
   color: var(--white);
 }
 
@@ -326,6 +325,12 @@ textarea {
   font-size: 1.08rem;
 }
 
+.hero-owner {
+  margin-top: 0.55rem;
+  color: rgba(255, 252, 247, 0.7);
+  font-size: 0.98rem;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -333,8 +338,29 @@ textarea {
   margin-top: 1.5rem;
 }
 
-.hero .placeholder-note {
-  color: rgba(247, 243, 235, 0.62);
+.hero-callout {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  margin-top: 1.15rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(196, 165, 116, 0.16);
+  border-left: 3px solid var(--tan);
+  color: var(--tan);
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.hero-callout:hover {
+  color: #e3cda8;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  padding: 2.4rem 1rem 9.25rem;
 }
 
 .hero-hills {
@@ -399,6 +425,25 @@ textarea {
 .service-card p {
   color: var(--muted);
   font-size: 0.98rem;
+}
+
+.service-card-primary {
+  border-left-color: var(--tan);
+  border-left-width: 6px;
+}
+
+.service-kicker {
+  margin: 0 0 0.35rem;
+  color: var(--tan-dark);
+  font-family: var(--condensed);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.service-extra {
+  margin-top: 0.65rem;
 }
 
 .why {
@@ -568,6 +613,52 @@ textarea {
   resize: vertical;
 }
 
+.choice-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice-group legend {
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.choice-options {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(44, 42, 38, 0.18);
+  border-radius: var(--radius);
+  background: var(--cream);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.choice input {
+  width: auto;
+  min-height: 1.15rem;
+  accent-color: var(--forest);
+}
+
+.choice:has(input:checked) {
+  border-color: var(--forest-mid);
+  background: var(--white);
+}
+
+.choice:focus-within {
+  outline: 2px solid var(--forest-mid);
+  outline-offset: 1px;
+}
+
 .estimate-form input:focus-visible,
 .estimate-form select:focus-visible,
 .estimate-form textarea:focus-visible {
@@ -588,6 +679,14 @@ textarea {
 .form-success p {
   color: var(--muted);
   margin-bottom: 1rem;
+}
+
+.form-success .estimate-contacts {
+  margin: 0 0 0.9rem;
+}
+
+.form-success .btn-ghost {
+  justify-self: start;
 }
 
 .site-footer {
@@ -625,11 +724,6 @@ textarea {
 
 .site-footer a:hover {
   color: var(--tan);
-}
-
-.site-footer .placeholder-note {
-  display: block;
-  color: #9c9588;
 }
 
 .copyright {
@@ -709,6 +803,14 @@ textarea {
   }
 
   .service-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .service-card-primary {
+    grid-column: 1 / -1;
+  }
+
+  .choice-options {
     grid-template-columns: 1fr 1fr;
   }
 

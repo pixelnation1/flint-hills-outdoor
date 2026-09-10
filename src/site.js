@@ -1,11 +1,5 @@
-/** Replace this with the real business phone number. */
-export const PHONE_DISPLAY = '(555) 010-0000'
-export const PHONE_TEL = '+15550100000'
-export const PHONE_LABEL = 'Phone number placeholder'
-
-/** Replace this with the real inbox for estimate requests. */
-export const FORM_EMAIL = 'your-email@placeholder.com'
-export const EMAIL_LABEL = 'Form email placeholder'
+export const PHONE_DISPLAY = '(620) 779-5234'
+export const PHONE_TEL = '+16207795234'
 
 export const BUSINESS_NAME = 'Flint Hills Outdoor Co. LLC'
 export const OWNER_NAME = 'Rayden Wright'
@@ -13,34 +7,46 @@ export const CITY = 'Emporia, Kansas'
 
 export const SERVICES = [
   {
-    id: 'mowing',
-    title: 'Residential lawn mowing',
-    copy: 'Steady mowing for homes, with a clean, even cut across the yard.',
-  },
-  {
-    id: 'trimming',
-    title: 'String trimming and edging',
-    copy: 'Trimmed edges along sidewalks, driveways, fences, and beds.',
-  },
-  {
-    id: 'clippings',
-    title: 'Grass clipping cleanup',
-    copy: 'Clippings cleared from walks, drives, and the lawn after mowing.',
+    id: 'routine',
+    title: 'Routine Lawn Care',
+    copy: 'Mowing, trimming and edging, plus cleanup for a clean, finished property.',
+    featured: true,
+    extra:
+      'Includes residential lawn mowing, string trimming, edging, and grass clipping cleanup. Ask about weekly or biweekly recurring mowing.',
   },
   {
     id: 'leaves',
-    title: 'Leaf cleanup',
+    title: 'Leaf Cleanup',
     copy: 'Leaves gathered and removed so the yard is ready for the season.',
   },
   {
     id: 'seasonal',
-    title: 'Seasonal yard cleanup',
+    title: 'Seasonal Yard Cleanup',
     copy: 'Help resetting the property between seasons, including debris pickup.',
   },
   {
     id: 'snow',
-    title: 'Sidewalk and driveway snow removal',
+    title: 'Sidewalk and Driveway Snow Removal',
     copy: 'Walks and drives cleared after snow so the property stays usable.',
+  },
+]
+
+export const REASONS = [
+  {
+    title: 'You deal directly with the owner',
+    copy: 'No call center or runaround. When you contact Flint Hills Outdoor Co., you’re dealing directly with the person responsible for the work.',
+  },
+  {
+    title: 'Straightforward estimates',
+    copy: 'Tell us what you need and we’ll give you a clear estimate before the work begins.',
+  },
+  {
+    title: 'Local service',
+    copy: 'Based in Emporia, Kansas and serving homes throughout the surrounding area.',
+  },
+  {
+    title: 'One call for the yard',
+    copy: 'From regular mowing to seasonal cleanup and snow removal, Flint Hills Outdoor Co. can help throughout the year.',
   },
 ]
 

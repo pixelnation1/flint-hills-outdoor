@@ -2,13 +2,11 @@ import { useState } from 'react'
 import {
   BUSINESS_NAME,
   CITY,
-  EMAIL_LABEL,
-  FORM_EMAIL,
   NEARBY_COMMUNITIES,
   OWNER_NAME,
   PHONE_DISPLAY,
-  PHONE_LABEL,
   PHONE_TEL,
+  REASONS,
   SERVICES,
 } from './site.js'
 
@@ -59,52 +57,6 @@ function IconMower() {
       />
       <path
         d="M8.5 17V11.5H6"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
-
-function IconTrimmer() {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path
-        d="M7 25.5 21.5 11"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-      />
-      <path
-        d="M21.5 11h4.5v4"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="8.5" cy="24.5" r="3.25" stroke="currentColor" strokeWidth="1.75" />
-      <path
-        d="M8.5 21.25v-2M8.5 29.75v-2M5.25 24.5h-2M13.75 24.5h-2"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
-
-function IconClippings() {
-  return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <path
-        d="M9 26V12.5c0-2.5 2-4.5 4.5-4.5h2c1.4 0 2.7.7 3.5 1.8L21.5 13H25v13H9Z"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 18h16M13.5 8v4"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
@@ -189,32 +141,11 @@ function IconSnow() {
 }
 
 const SERVICE_ICONS = {
-  mowing: IconMower,
-  trimming: IconTrimmer,
-  clippings: IconClippings,
+  routine: IconMower,
   leaves: IconLeaf,
   seasonal: IconSeasonal,
   snow: IconSnow,
 }
-
-const REASONS = [
-  {
-    title: 'Locally owned',
-    copy: `${BUSINESS_NAME} is a locally owned lawn-care company serving ${CITY}.`,
-  },
-  {
-    title: 'Owner-operated',
-    copy: `The business is owned and operated by ${OWNER_NAME}, so you work with the person doing the job.`,
-  },
-  {
-    title: 'Easy to reach',
-    copy: 'Call, text, or send an estimate request. The goal is a simple next step, not a long process.',
-  },
-  {
-    title: 'Seasonal yard help',
-    copy: 'Services cover the growing season and winter, from mowing and cleanup to sidewalk and driveway snow removal.',
-  },
-]
 
 function Hills() {
   return (
@@ -266,10 +197,13 @@ function Hero() {
     <section className="hero" aria-labelledby="hero-heading">
       <div className="hero-inner">
         <p className="eyebrow">Serving {CITY}</p>
-        <h1 id="hero-heading">Local lawn care for Emporia homes.</h1>
+        <h1 id="hero-heading">Reliable lawn care without the runaround.</h1>
         <p className="hero-lead">
-          {BUSINESS_NAME} is owned and operated by {OWNER_NAME}. Call, text, or
-          request a free estimate for mowing, yard cleanup, and snow removal.
+          Lawn mowing, trimming, cleanup &amp; seasonal yard care in Emporia,
+          Kansas.
+        </p>
+        <p className="hero-owner">
+          Owned and operated by {OWNER_NAME}.
         </p>
         <div className="hero-actions">
           <a className="btn btn-tan" href="#estimate">
@@ -282,7 +216,9 @@ function Hero() {
             Text Us
           </a>
         </div>
-        <p className="placeholder-note">{PHONE_LABEL}</p>
+        <a className="hero-callout" href="#estimate">
+          Need regular lawn care? Ask about recurring mowing service.
+        </a>
       </div>
       <Hills />
     </section>
@@ -295,22 +231,37 @@ function Services() {
       <div className="section-inner">
         <div className="section-intro">
           <p className="eyebrow">What we do</p>
-          <h2 id="services-heading">Straightforward residential yard work</h2>
+          <h2 id="services-heading">Recurring mowing for Emporia lawns</h2>
           <p>
-            A focused list of outdoor services for homes in Emporia and nearby
-            communities. Ask about the work you need when you request an estimate.
+            Routine Lawn Care is the main service: residential lawn mowing,
+            string trimming, edging, and grass clipping cleanup on a regular
+            schedule. Leaf cleanup, seasonal yard cleanup, and sidewalk and
+            driveway snow removal are available when the season calls for them.
           </p>
         </div>
         <ul className="service-grid">
           {SERVICES.map((service) => {
             const Icon = SERVICE_ICONS[service.id]
             return (
-              <li className="service-card" key={service.id}>
+              <li
+                className={
+                  service.featured
+                    ? 'service-card service-card-primary'
+                    : 'service-card'
+                }
+                key={service.id}
+              >
                 <span className="service-icon">
                   <Icon />
                 </span>
+                {service.featured ? (
+                  <p className="service-kicker">Most requested</p>
+                ) : null}
                 <h3>{service.title}</h3>
                 <p>{service.copy}</p>
+                {service.extra ? (
+                  <p className="service-extra">{service.extra}</p>
+                ) : null}
               </li>
             )
           })}
@@ -328,8 +279,8 @@ function WhyChooseUs() {
           <p className="eyebrow">Why choose us</p>
           <h2 id="why-heading">A local owner, a clear way to get started</h2>
           <p>
-            No long pitch. Flint Hills Outdoor Co. is a local business built
-            around direct communication and the work listed above.
+            {BUSINESS_NAME} is owned and operated by {OWNER_NAME}. Call, text,
+            or request a free estimate.
           </p>
         </div>
         <ol className="reason-list">
@@ -384,8 +335,23 @@ const emptyForm = {
   phone: '',
   email: '',
   address: '',
-  service: '',
+  service: 'Routine Lawn Care',
+  frequency: 'Recurring Service',
   message: '',
+}
+
+function buildRequestDetails(form) {
+  return [
+    'Estimate request for Flint Hills Outdoor Co.',
+    `Name: ${form.name}`,
+    `Phone: ${form.phone}`,
+    `Email: ${form.email || 'Not provided'}`,
+    `Property: ${form.address || 'Not provided'}`,
+    `Service: ${form.service}`,
+    `Type: ${form.frequency}`,
+    '',
+    form.message || 'No additional details.',
+  ].join('\n')
 }
 
 function EstimateForm() {
@@ -399,21 +365,8 @@ function EstimateForm() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    const subject = encodeURIComponent(
-      `Estimate request from ${form.name || 'a neighbor'}`,
-    )
-    const body = encodeURIComponent(
-      [
-        `Name: ${form.name}`,
-        `Phone: ${form.phone}`,
-        `Email: ${form.email || 'Not provided'}`,
-        `Property: ${form.address || 'Not provided'}`,
-        `Service: ${form.service}`,
-        '',
-        form.message || 'No additional details.',
-      ].join('\n'),
-    )
-    window.location.href = `mailto:${FORM_EMAIL}?subject=${subject}&body=${body}`
+    const body = encodeURIComponent(buildRequestDetails(form))
+    window.location.href = `${textHref}?body=${body}`
     setSubmitted(true)
   }
 
@@ -422,10 +375,10 @@ function EstimateForm() {
       <div className="section-inner estimate-layout">
         <div className="section-intro">
           <p className="eyebrow">Free estimate</p>
-          <h2 id="estimate-heading">Tell us about the property</h2>
+          <h2 id="estimate-heading">Get your free estimate.</h2>
           <p>
-            Share a few details and we will follow up. For a faster response,
-            call or text the number below.
+            Share a few details and follow up by call or text. Phone is the
+            best way to reach {OWNER_NAME}.
           </p>
           <div className="estimate-contacts">
             <a className="btn btn-forest" href={phoneHref}>
@@ -435,21 +388,25 @@ function EstimateForm() {
               Text {PHONE_DISPLAY}
             </a>
           </div>
-          <p className="placeholder-note">
-            {PHONE_LABEL} · {EMAIL_LABEL}: {FORM_EMAIL}
-          </p>
         </div>
 
         {submitted ? (
           <div className="form-success" role="status">
             <h3>Request ready to send</h3>
             <p>
-              Your email app should open with the estimate details. If it does
-              not, call or text {PHONE_DISPLAY}, or send the same details to{' '}
-              {FORM_EMAIL}.
+              Your messaging app should open with the estimate details. If it
+              does not, call or text {PHONE_DISPLAY}.
             </p>
+            <div className="estimate-contacts">
+              <a className="btn btn-forest" href={phoneHref}>
+                Call {PHONE_DISPLAY}
+              </a>
+              <a className="btn btn-ghost" href={textHref}>
+                Text {PHONE_DISPLAY}
+              </a>
+            </div>
             <button
-              className="btn btn-forest"
+              className="btn btn-ghost"
               type="button"
               onClick={() => {
                 setSubmitted(false)
@@ -478,13 +435,16 @@ function EstimateForm() {
                 name="phone"
                 type="tel"
                 autoComplete="tel"
+                inputMode="tel"
                 required
                 value={form.phone}
                 onChange={update}
               />
             </label>
             <label>
-              Email
+              <span>
+                Email <span className="optional">(optional)</span>
+              </span>
               <input
                 name="email"
                 type="email"
@@ -511,9 +471,6 @@ function EstimateForm() {
                 value={form.service}
                 onChange={update}
               >
-                <option value="" disabled>
-                  Select a service
-                </option>
                 {SERVICES.map((service) => (
                   <option key={service.id} value={service.title}>
                     {service.title}
@@ -522,23 +479,48 @@ function EstimateForm() {
                 <option value="Other / not sure">Other / not sure</option>
               </select>
             </label>
+            <fieldset className="full choice-group">
+              <legend>One-Time Service or Recurring Service</legend>
+              <div className="choice-options">
+                <label className="choice">
+                  <input
+                    type="radio"
+                    name="frequency"
+                    value="Recurring Service"
+                    checked={form.frequency === 'Recurring Service'}
+                    onChange={update}
+                    required
+                  />
+                  Recurring Service
+                </label>
+                <label className="choice">
+                  <input
+                    type="radio"
+                    name="frequency"
+                    value="One-Time Service"
+                    checked={form.frequency === 'One-Time Service'}
+                    onChange={update}
+                  />
+                  One-Time Service
+                </label>
+              </div>
+            </fieldset>
             <label className="full">
-              Anything we should know
+              Description / additional details
               <textarea
                 name="message"
                 rows="4"
                 value={form.message}
                 onChange={update}
-                placeholder="Lot size, timing, or the work you have in mind"
+                placeholder="Lot size, weekly or biweekly mowing, or other work you have in mind"
               />
             </label>
             <div className="form-footer">
               <button className="btn btn-forest" type="submit">
                 Request a Free Estimate
               </button>
-              <p className="placeholder-note">
-                Submitting opens an email to {FORM_EMAIL} ({EMAIL_LABEL.toLowerCase()}
-                ).
+              <p className="form-note">
+                Submitting opens a text to {PHONE_DISPLAY} with your details.
               </p>
             </div>
           </form>
@@ -570,12 +552,10 @@ function Footer() {
           <h2>Contact</h2>
           <ul>
             <li>
-              <a href={phoneHref}>{PHONE_DISPLAY}</a>
-              <span className="placeholder-note">{PHONE_LABEL}</span>
+              <a href={phoneHref}>Call {PHONE_DISPLAY}</a>
             </li>
             <li>
-              <a href={`mailto:${FORM_EMAIL}`}>{FORM_EMAIL}</a>
-              <span className="placeholder-note">{EMAIL_LABEL}</span>
+              <a href={textHref}>Text {PHONE_DISPLAY}</a>
             </li>
             <li>{CITY}</li>
           </ul>
