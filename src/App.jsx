@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   BUSINESS_NAME,
   CITY,
@@ -353,23 +353,13 @@ const emptyForm = {
   message: '',
 }
 
-function buildRequestDetails(form) {
-  return [
-    'Estimate request for Flint Hills Outdoor Co.',
-    `Name: ${form.name}`,
-    `Phone: ${form.phone}`,
-    `Email: ${form.email || 'Not provided'}`,
-    `Property: ${form.address || 'Not provided'}`,
-    `Service: ${form.service}`,
-    `Type: ${form.frequency}`,
-    '',
-    form.message || 'No additional details.',
-  ].join('\n')
-}
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function EstimateForm() {
   const [form, setForm] = useState(emptyForm)
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState('')
+  const [sending, setSending] = useState(false)
+  const sendingRef = useRef(false)
 
   function update(event) {
     const { name, value } = event.target
@@ -378,11 +368,60 @@ function EstimateForm() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    const body = encodeURIComponent(buildRequestDetails(form))
-    window.location.href = `${EMAIL_HREF}?subject=${encodeURIComponent(
-      `Estimate request from ${form.name || 'a neighbor'}`,
-    )}&body=${body}`
-    setSubmitted(true)
+    event.stopPropagation()
+    void sendEstimateRequest()
+  }
+
+  async function sendEstimateRequest() {
+    if (sendingRef.current) {
+      return
+    }
+
+    setStatus('')
+
+    const name = form.name.trim()
+    const phone = form.phone.trim()
+    const email = form.email.trim()
+    const service = form.service.trim()
+
+    if (!name || !phone || !service) {
+      return
+    }
+
+    if (email && !EMAIL_PATTERN.test(email)) {
+      return
+    }
+
+    sendingRef.current = true
+    setSending(true)
+
+    try {
+      const response = await fetch('/api/estimate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          address: form.address.trim(),
+          service,
+          frequency: form.frequency,
+          message: form.message.trim(),
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Request failed')
+      }
+
+      setForm(emptyForm)
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    } finally {
+      sendingRef.current = false
+      setSending(false)
+    }
   }
 
   return (
@@ -408,144 +447,128 @@ function EstimateForm() {
           <ContactDetails />
         </div>
 
-        {submitted ? (
-          <div className="form-success" role="status">
-            <h3>Request ready to send</h3>
-            <p>
-              Your email app should open with the estimate details. If it does
-              not, call, text, or email {EMAIL}.
+        <form
+          className="estimate-form"
+          method="post"
+          action="/api/estimate"
+          onSubmit={handleSubmit}
+        >
+          {status === 'success' ? (
+            <p className="form-status form-status-success" role="status">
+              Thanks! We received your estimate request and will be in touch soon.
             </p>
-            <div className="estimate-contacts">
-              <a className="btn btn-forest" href={phoneHref}>
-                Call {PHONE_DISPLAY}
-              </a>
-              <a className="btn btn-ghost" href={textHref}>
-                Text {PHONE_DISPLAY}
-              </a>
-              <a className="btn btn-ghost" href={EMAIL_HREF}>
-                Email Us
-              </a>
-            </div>
-            <button
-              className="btn btn-ghost"
-              type="button"
-              onClick={() => {
-                setSubmitted(false)
-                setForm(emptyForm)
-              }}
+          ) : null}
+          {status === 'error' ? (
+            <p className="form-status form-status-error" role="alert">
+              Something went wrong. Please call or text us at 620-779-5234.
+            </p>
+          ) : null}
+          <label>
+            Full name
+            <input
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              value={form.name}
+              onChange={update}
+            />
+          </label>
+          <label>
+            Phone
+            <input
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              required
+              value={form.phone}
+              onChange={update}
+            />
+          </label>
+          <label>
+            <span>
+              Email <span className="optional">(optional)</span>
+            </span>
+            <input
+              name="email"
+              type="email"
+              autoComplete="email"
+              value={form.email}
+              onChange={update}
+            />
+          </label>
+          <label>
+            Property address or city
+            <input
+              name="address"
+              type="text"
+              autoComplete="street-address"
+              value={form.address}
+              onChange={update}
+            />
+          </label>
+          <label className="full">
+            Service needed
+            <select
+              name="service"
+              required
+              value={form.service}
+              onChange={update}
             >
-              Send another request
-            </button>
-          </div>
-        ) : (
-          <form className="estimate-form" onSubmit={handleSubmit}>
-            <label>
-              Full name
-              <input
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                value={form.name}
-                onChange={update}
-              />
-            </label>
-            <label>
-              Phone
-              <input
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                inputMode="tel"
-                required
-                value={form.phone}
-                onChange={update}
-              />
-            </label>
-            <label>
-              <span>
-                Email <span className="optional">(optional)</span>
-              </span>
-              <input
-                name="email"
-                type="email"
-                autoComplete="email"
-                value={form.email}
-                onChange={update}
-              />
-            </label>
-            <label>
-              Property address or city
-              <input
-                name="address"
-                type="text"
-                autoComplete="street-address"
-                value={form.address}
-                onChange={update}
-              />
-            </label>
-            <label className="full">
-              Service needed
-              <select
-                name="service"
-                required
-                value={form.service}
-                onChange={update}
-              >
-                {SERVICES.map((service) => (
-                  <option key={service.id} value={service.title}>
-                    {service.title}
-                  </option>
-                ))}
-                <option value="Other / not sure">Other / not sure</option>
-              </select>
-            </label>
-            <fieldset className="full choice-group">
-              <legend>One-Time Service or Recurring Service</legend>
-              <div className="choice-options">
-                <label className="choice">
-                  <input
-                    type="radio"
-                    name="frequency"
-                    value="Recurring Service"
-                    checked={form.frequency === 'Recurring Service'}
-                    onChange={update}
-                    required
-                  />
-                  Recurring Service
-                </label>
-                <label className="choice">
-                  <input
-                    type="radio"
-                    name="frequency"
-                    value="One-Time Service"
-                    checked={form.frequency === 'One-Time Service'}
-                    onChange={update}
-                  />
-                  One-Time Service
-                </label>
-              </div>
-            </fieldset>
-            <label className="full">
-              Description / additional details
-              <textarea
-                name="message"
-                rows="4"
-                value={form.message}
-                onChange={update}
-                placeholder="Lot size, weekly or biweekly mowing, or other work you have in mind"
-              />
-            </label>
-            <div className="form-footer">
-              <button className="btn btn-forest" type="submit">
-                Request a Free Estimate
-              </button>
-              <p className="form-note">
-                Submitting opens an email to {EMAIL} with your details.
-              </p>
+              {SERVICES.map((service) => (
+                <option key={service.id} value={service.title}>
+                  {service.title}
+                </option>
+              ))}
+              <option value="Other / not sure">Other / not sure</option>
+            </select>
+          </label>
+          <fieldset className="full choice-group">
+            <legend>One-Time Service or Recurring Service</legend>
+            <div className="choice-options">
+              <label className="choice">
+                <input
+                  type="radio"
+                  name="frequency"
+                  value="Recurring Service"
+                  checked={form.frequency === 'Recurring Service'}
+                  onChange={update}
+                  required
+                />
+                Recurring Service
+              </label>
+              <label className="choice">
+                <input
+                  type="radio"
+                  name="frequency"
+                  value="One-Time Service"
+                  checked={form.frequency === 'One-Time Service'}
+                  onChange={update}
+                />
+                One-Time Service
+              </label>
             </div>
-          </form>
-        )}
+          </fieldset>
+          <label className="full">
+            Description / additional details
+            <textarea
+              name="message"
+              rows="4"
+              value={form.message}
+              onChange={update}
+              placeholder="Lot size, weekly or biweekly mowing, or other work you have in mind"
+            />
+          </label>
+          <div className="form-footer">
+            <button className="btn btn-forest" type="submit" disabled={sending}>
+              {sending ? 'Sending...' : 'Request a Free Estimate'}
+            </button>
+            <p className="form-note">
+              We’ll send your request directly to Flint Hills Outdoor Co.
+            </p>
+          </div>
+        </form>
       </div>
     </section>
   )

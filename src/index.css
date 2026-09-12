@@ -660,6 +660,28 @@ textarea {
   gap: 0.5rem;
 }
 
+.form-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  font-weight: 600;
+  border: 1px solid rgba(30, 61, 47, 0.18);
+  background: var(--cream);
+}
+
+.form-status-success {
+  color: var(--forest);
+}
+
+.form-status-error {
+  color: var(--charcoal);
+}
+
+.btn:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
 .form-success h3 {
   margin-bottom: 0.5rem;
 }
@@ -845,7 +867,8 @@ textarea {
   }
 
   .estimate-form .full,
-  .form-footer {
+  .form-footer,
+  .form-status {
     grid-column: 1 / -1;
   }
 }
