@@ -2,12 +2,18 @@ import { useState } from 'react'
 import {
   BUSINESS_NAME,
   CITY,
+  CONTACT_NAME,
+  EMAIL,
+  EMAIL_HREF,
   NEARBY_COMMUNITIES,
   OWNER_NAME,
   PHONE_DISPLAY,
   PHONE_TEL,
   REASONS,
+  SERVICE_AREA,
   SERVICES,
+  WEBSITE_DISPLAY,
+  WEBSITE_HREF,
 } from './site.js'
 
 const phoneHref = `tel:${PHONE_TEL}`
@@ -162,6 +168,27 @@ function Hills() {
   )
 }
 
+function ContactDetails() {
+  return (
+    <ul className="contact-details">
+      <li>{CONTACT_NAME}</li>
+      <li>
+        Phone:{' '}
+        <a href={phoneHref}>{PHONE_DISPLAY}</a>
+      </li>
+      <li>
+        Email:{' '}
+        <a href={EMAIL_HREF}>{EMAIL}</a>
+      </li>
+      <li>
+        Website:{' '}
+        <a href={WEBSITE_HREF}>{WEBSITE_DISPLAY}</a>
+      </li>
+      <li>Service Area: {SERVICE_AREA}</li>
+    </ul>
+  )
+}
+
 function Header() {
   return (
     <header className="site-header">
@@ -266,7 +293,7 @@ function WhyChooseUs() {
           <h2 id="why-heading">A local owner, a clear way to get started</h2>
           <p>
             {BUSINESS_NAME} is owned and operated by {OWNER_NAME}. Call, text,
-            or request a free estimate.
+            email, or request a free estimate.
           </p>
         </div>
         <ol className="reason-list">
@@ -352,7 +379,9 @@ function EstimateForm() {
   function handleSubmit(event) {
     event.preventDefault()
     const body = encodeURIComponent(buildRequestDetails(form))
-    window.location.href = `${textHref}?body=${body}`
+    window.location.href = `${EMAIL_HREF}?subject=${encodeURIComponent(
+      `Estimate request from ${form.name || 'a neighbor'}`,
+    )}&body=${body}`
     setSubmitted(true)
   }
 
@@ -363,8 +392,7 @@ function EstimateForm() {
           <p className="eyebrow">Free estimate</p>
           <h2 id="estimate-heading">Get your free estimate.</h2>
           <p>
-            Share a few details and follow up by call or text. Phone is the
-            best way to reach {OWNER_NAME}.
+            Share a few details and follow up by call, text, or email.
           </p>
           <div className="estimate-contacts">
             <a className="btn btn-forest" href={phoneHref}>
@@ -373,15 +401,19 @@ function EstimateForm() {
             <a className="btn btn-ghost" href={textHref}>
               Text {PHONE_DISPLAY}
             </a>
+            <a className="btn btn-ghost" href={EMAIL_HREF}>
+              Email Us
+            </a>
           </div>
+          <ContactDetails />
         </div>
 
         {submitted ? (
           <div className="form-success" role="status">
             <h3>Request ready to send</h3>
             <p>
-              Your messaging app should open with the estimate details. If it
-              does not, call or text {PHONE_DISPLAY}.
+              Your email app should open with the estimate details. If it does
+              not, call, text, or email {EMAIL}.
             </p>
             <div className="estimate-contacts">
               <a className="btn btn-forest" href={phoneHref}>
@@ -389,6 +421,9 @@ function EstimateForm() {
               </a>
               <a className="btn btn-ghost" href={textHref}>
                 Text {PHONE_DISPLAY}
+              </a>
+              <a className="btn btn-ghost" href={EMAIL_HREF}>
+                Email Us
               </a>
             </div>
             <button
@@ -506,7 +541,7 @@ function EstimateForm() {
                 Request a Free Estimate
               </button>
               <p className="form-note">
-                Submitting opens a text to {PHONE_DISPLAY} with your details.
+                Submitting opens an email to {EMAIL} with your details.
               </p>
             </div>
           </form>
@@ -532,15 +567,7 @@ function Footer() {
         </div>
         <div>
           <h2>Contact</h2>
-          <ul>
-            <li>
-              <a href={phoneHref}>Call {PHONE_DISPLAY}</a>
-            </li>
-            <li>
-              <a href={textHref}>Text {PHONE_DISPLAY}</a>
-            </li>
-            <li>{CITY}</li>
-          </ul>
+          <ContactDetails />
         </div>
         <div>
           <h2>On this page</h2>

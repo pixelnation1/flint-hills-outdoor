@@ -171,6 +171,7 @@ textarea {
 .btn:focus-visible,
 .brand:focus-visible,
 .hero-callout:focus-visible,
+.contact-details a:focus-visible,
 .contact-bar a:focus-visible,
 .site-footer a:focus-visible {
   outline: 2px solid var(--tan);
@@ -712,9 +713,30 @@ textarea {
   margin-bottom: 0.7rem;
 }
 
-.site-footer ul {
+.site-footer ul,
+.contact-details {
   display: grid;
   gap: 0.55rem;
+}
+
+.contact-details {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.estimate .contact-details {
+  margin-top: 1.2rem;
+  color: var(--muted);
+}
+
+.contact-details a {
+  color: var(--forest);
+  text-decoration: none;
+}
+
+.contact-details a:hover {
+  color: var(--tan-dark);
 }
 
 .site-footer a {

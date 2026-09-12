@@ -1,5 +1,11 @@
-export const PHONE_DISPLAY = '(620) 779-5234'
+export const PHONE_DISPLAY = '620-779-5234'
 export const PHONE_TEL = '+16207795234'
+export const EMAIL = 'service@flinthillsoutdoorco.com'
+export const EMAIL_HREF = 'mailto:service@flinthillsoutdoorco.com'
+export const WEBSITE_DISPLAY = 'www.flinthillsoutdoorco.com'
+export const WEBSITE_HREF = 'https://www.flinthillsoutdoorco.com'
+export const SERVICE_AREA = 'Emporia, KS & Surrounding Areas'
+export const CONTACT_NAME = 'Flint Hills Outdoor Co.'
 
 export const BUSINESS_NAME = 'Flint Hills Outdoor Co. LLC'
 export const OWNER_NAME = 'Rayden Wright'
