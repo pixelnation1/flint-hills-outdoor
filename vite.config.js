@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
+import { seoStaticPlugin } from './server/seoStaticPlugin.js'
 import { estimateApiPlugin } from './server/viteEstimatePlugin.js'
 
 export default defineConfig(({ mode }) => {
@@ -9,6 +10,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    plugins: [react(), estimateApiPlugin()],
+    plugins: [react(), estimateApiPlugin(), seoStaticPlugin()],
+    appType: 'spa',
   }
 })
