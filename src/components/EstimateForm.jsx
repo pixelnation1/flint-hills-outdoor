@@ -13,8 +13,8 @@ const emptyForm = {
   phone: '',
   email: '',
   address: '',
-  service: 'Lawn Mowing',
-  frequency: 'Recurring Service',
+  service: '',
+  frequency: '',
   message: '',
 }
 
@@ -49,7 +49,7 @@ export default function EstimateForm() {
     const email = form.email.trim()
     const service = form.service.trim()
 
-    if (!name || !phone || !service) {
+    if (!name || !phone || !service || !form.frequency) {
       return
     }
 
@@ -96,8 +96,9 @@ export default function EstimateForm() {
           <p className="eyebrow">Free estimate</p>
           <h2 id="estimate-heading">Get your free estimate.</h2>
           <p>
-            Share a few details about the property. We’ll send your request
-            directly to Flint Hills Outdoor Co.
+            Tell Rayden where the property is and what you need done.
+            He will follow up to discuss the work, pricing, and scheduling.
+            Your request does not book a job or commit you to service.
           </p>
           <div className="estimate-contacts">
             <a className="btn btn-forest" href={phoneHref}>
@@ -182,6 +183,7 @@ export default function EstimateForm() {
               value={form.service}
               onChange={update}
             >
+              <option value="" disabled>Select a service</option>
               {SERVICES.map((service) => (
                 <option key={service.slug} value={service.title}>
                   {service.title}
@@ -223,7 +225,7 @@ export default function EstimateForm() {
               rows="4"
               value={form.message}
               onChange={update}
-              placeholder="Lot size, weekly or biweekly mowing, or other work you have in mind"
+              placeholder="Tell us about the job, property size, and preferred timing."
             />
           </label>
           <div className="form-footer">
@@ -231,7 +233,8 @@ export default function EstimateForm() {
               {sending ? 'Sending...' : 'Request a Free Estimate'}
             </button>
             <p className="form-note">
-              We’ll send your request directly to Flint Hills Outdoor Co.
+              Your details are sent to Flint Hills Outdoor Co. so Rayden can respond about this request.
+              Prefer to talk? Call or text 620-779-5234.
             </p>
           </div>
         </form>

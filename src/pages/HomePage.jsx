@@ -19,6 +19,14 @@ import {
   TRUST_POINTS,
 } from '../site.js'
 
+const month = Number(new Intl.DateTimeFormat('en-US', { month: 'numeric', timeZone: 'America/Chicago' }).format(new Date()))
+const seasonalSlugs = month >= 9 && month <= 11
+  ? ['leaf-removal', 'seasonal-cleanup', 'snow-removal']
+  : month === 12 || month <= 2
+    ? ['snow-removal', 'yard-cleanup', 'lawn-mowing']
+    : ['lawn-mowing', 'yard-cleanup', 'property-maintenance']
+const seasonalLabel = month >= 9 && month <= 11 ? 'Fall cleanup & winter planning' : month === 12 || month <= 2 ? 'Winter property care' : 'A yard you can enjoy'
+
 export default function HomePage() {
   return (
     <>
@@ -30,27 +38,43 @@ export default function HomePage() {
 
       <section className="hero" aria-labelledby="hero-heading">
         <div className="hero-inner">
-          <p className="eyebrow">Serving {CITY}</p>
-          <h1 id="hero-heading">Year-round outdoor property care in Emporia.</h1>
+          <div className="hero-copy">
+          <p className="eyebrow">Locally owned · {CITY}</p>
+          <h1 id="hero-heading">Your yard. Our job.</h1>
           <p className="hero-lead">
-            Lawn mowing, cleanup, and snow on walks and drives—handled by a
-            local owner, not a call center.
+            Lawn mowing, leaf removal, yard cleanup, and snow removal in Emporia
+            and nearby communities. Get help with the outdoor work on your list.
           </p>
           <p className="hero-owner">Owned and operated by {OWNER_NAME}.</p>
           <div className="hero-actions">
-            <Link className="btn btn-tan" to="/#estimate">
-              Request a Free Estimate
-            </Link>
-            <a className="btn btn-outline" href={phoneHref}>
-              Call {PHONE_DISPLAY}
+            <a className="btn btn-tan" href={phoneHref}>
+              Call Rayden: {PHONE_DISPLAY}
             </a>
+            <Link className="btn btn-outline" to="/#estimate">
+              Get a Free Estimate
+            </Link>
             <a className="btn btn-outline" href={textHref}>
               Text Us
             </a>
           </div>
-          <Link className="hero-callout" to="/services/lawn-mowing">
-            Need regular lawn care? Ask about recurring mowing service.
-          </Link>
+          <p className="hero-reassurance">One-time jobs or recurring care. A clear estimate before work begins.</p>
+          </div>
+          <aside className="seasonal-spotlight" aria-labelledby="spotlight-heading">
+            <p className="eyebrow">Plan your next job</p>
+            <h2 id="spotlight-heading">{seasonalLabel}</h2>
+            <ul>
+              {seasonalSlugs.map((slug) => {
+                const service = SERVICES.find((item) => item.slug === slug)
+                const Icon = SERVICE_ICONS[service.icon]
+                return <li key={slug}><Link to={`/services/${slug}`}>
+                  {Icon && <span className="spotlight-icon"><Icon /></span>}
+                  <span><strong>{service.title}</strong><span>{service.cardCopy}</span></span>
+                  <span aria-hidden="true">→</span>
+                </Link></li>
+              })}
+            </ul>
+            <a className="text-link" href={textHref}>Have a job in mind? Text Rayden →</a>
+          </aside>
         </div>
         <Hills />
       </section>
@@ -72,9 +96,8 @@ export default function HomePage() {
             <p className="eyebrow">Services</p>
             <h2 id="services-heading">Outdoor care for Emporia properties</h2>
             <p>
-              Recurring lawn mowing is the core of the work. Cleanup and snow
-              removal cover the rest of the year. Each service has its own page
-              so you can see what is included before you request an estimate.
+              Keep up with the lawn, tackle a cleanup, or plan for snow.
+              Choose the service you need and ask for a free estimate for your property.
             </p>
           </div>
           <ul className="service-grid">
@@ -112,12 +135,14 @@ export default function HomePage() {
       <section className="section why" id="why" aria-labelledby="why-heading">
         <div className="section-inner why-layout">
           <div className="section-intro">
-            <p className="eyebrow">Why choose us</p>
-            <h2 id="why-heading">Why choose Flint Hills Outdoor Co.</h2>
+            <p className="eyebrow">Meet your local owner</p>
+            <h2 id="why-heading">Work directly with Rayden.</h2>
             <p>
-              You are hiring a local owner in Emporia. The estimate is clear.
-              The work is the outdoor care listed on this site.
+              Flint Hills Outdoor Co. is owned and operated by Rayden Wright
+              in Emporia. From your first question to the work on your property,
+              you have a direct line to the person responsible for the job.
             </p>
+            <a className="text-link" href={phoneHref}>Talk through your job: {PHONE_DISPLAY} →</a>
           </div>
           <ol className="reason-list">
             {REASONS.map((reason, index) => (
@@ -141,9 +166,8 @@ export default function HomePage() {
             <p className="eyebrow">Through the year</p>
             <h2 id="seasonal-heading">Seasonal services</h2>
             <p>
-              Kansas weather does not pause. These are the visits that match
-              the season without turning every job into a package you did not
-              ask for.
+              Get help when you need it, from the first spring mow to winter
+              snow on the driveway. Ask about a single visit or ongoing care.
             </p>
           </div>
           <ul className="season-grid">
@@ -178,8 +202,8 @@ export default function HomePage() {
             <p className="eyebrow">Service area</p>
             <h2 id="area-heading">Emporia, Kansas and nearby communities</h2>
             <p>
-              The company is based in Emporia. Each town below has its own
-              page because the properties and seasons do not read the same.
+              Based in Emporia and serving surrounding communities. Not sure
+              whether your property is in range? Call or text with your location.
             </p>
             <ul className="town-list town-list-links">
               {AREAS.map((area) => (
@@ -198,6 +222,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="section how-it-works" aria-labelledby="steps-heading">
+        <div className="section-inner">
+          <div className="section-intro"><p className="eyebrow">From to-do to done</p><h2 id="steps-heading">Getting started is simple.</h2></div>
+          <ol className="steps-grid">
+            <li><span className="step-number">01</span><h3>Tell us about the job.</h3><p>Call, text, or use the form. Share your location and what you need help with.</p></li>
+            <li><span className="step-number">02</span><h3>Get a clear estimate.</h3><p>Rayden will discuss the property, the work, and the price before you decide.</p></li>
+            <li><span className="step-number">03</span><h3>Agree on a schedule.</h3><p>Confirm the scope and timing together, whether it is one visit or recurring care.</p></li>
+          </ol>
+        </div>
+      </section>
       <EstimateForm />
 
       <section className="section faq-section" aria-labelledby="faq-heading">

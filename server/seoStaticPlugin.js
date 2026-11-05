@@ -19,32 +19,32 @@ function setMeta(html, route) {
   return html
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
     .replace(
-      /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
-      `<meta name="description" content="${description}" />`,
+      /<meta\s+(?:data-rh="true"\s+)?name="description"\s+content="[^"]*"\s*\/>/,
+      `<meta data-rh="true" name="description" content="${description}" />`,
     )
     .replace(
-      /<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/,
-      `<link rel="canonical" href="${url}" />`,
+      /<link\s+(?:data-rh="true"\s+)?rel="canonical"\s+href="[^"]*"\s*\/>/,
+      `<link data-rh="true" rel="canonical" href="${url}" />`,
     )
     .replace(
-      /<meta\s+property="og:title"\s+content="[^"]*"\s*\/>/,
-      `<meta property="og:title" content="${title}" />`,
+      /<meta\s+(?:data-rh="true"\s+)?property="og:title"\s+content="[^"]*"\s*\/>/,
+      `<meta data-rh="true" property="og:title" content="${title}" />`,
     )
     .replace(
-      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/,
-      `<meta property="og:description" content="${description}" />`,
+      /<meta\s+(?:data-rh="true"\s+)?property="og:description"\s+content="[^"]*"\s*\/>/,
+      `<meta data-rh="true" property="og:description" content="${description}" />`,
     )
     .replace(
-      /<meta\s+property="og:url"\s+content="[^"]*"\s*\/>/,
-      `<meta property="og:url" content="${url}" />`,
+      /<meta\s+(?:data-rh="true"\s+)?property="og:url"\s+content="[^"]*"\s*\/>/,
+      `<meta data-rh="true" property="og:url" content="${url}" />`,
     )
     .replace(
-      /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/>/,
-      `<meta name="twitter:title" content="${title}" />`,
+      /<meta\s+(?:data-rh="true"\s+)?name="twitter:title"\s+content="[^"]*"\s*\/>/,
+      `<meta data-rh="true" name="twitter:title" content="${title}" />`,
     )
     .replace(
-      /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/,
-      `<meta name="twitter:description" content="${description}" />`,
+      /<meta\s+(?:data-rh="true"\s+)?name="twitter:description"\s+content="[^"]*"\s*\/>/,
+      `<meta data-rh="true" name="twitter:description" content="${description}" />`,
     )
 }
 

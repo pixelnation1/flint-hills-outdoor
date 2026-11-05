@@ -12,5 +12,6 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), estimateApiPlugin(), seoStaticPlugin()],
     appType: 'spa',
+    server: { allowedHosts: ['terminal.local'] },
   }
 })

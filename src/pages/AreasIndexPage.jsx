@@ -25,9 +25,9 @@ export default function AreasIndexPage() {
           <p className="eyebrow">Where we work</p>
           <h1>Service areas around Emporia, Kansas</h1>
           <p className="page-lead">
-            Each community below has its own page because the properties are
-            not interchangeable. Emporia is the home base. The other towns are
-            part of the regular service area, not copied listings.
+            Based in Emporia, Flint Hills Outdoor Co. offers mowing, cleanup,
+            and seasonal care in the communities below. Share your address
+            when requesting an estimate so Rayden can confirm service and scheduling.
           </p>
         </div>
       </header>
@@ -48,7 +48,7 @@ export default function AreasIndexPage() {
           </ul>
           <p className="nearby-note">
             Nearby communities such as {ADDITIONAL_NEARBY.join(', ')} are
-            welcome to request an estimate even without a dedicated page.
+            welcome to request an estimate. Contact Rayden to confirm availability for your property.
           </p>
         </div>
       </section>

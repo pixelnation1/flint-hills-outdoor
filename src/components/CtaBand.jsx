@@ -3,7 +3,7 @@ import { PHONE_DISPLAY, phoneHref, textHref } from '../site.js'
 
 export default function CtaBand({
   heading = 'Ready for a straightforward estimate?',
-  copy = 'Tell us about the property. We’ll follow up directly—no call center in between.',
+  copy = 'Share your location and the work you need. Rayden will follow up to discuss your estimate.',
 }) {
   return (
     <section className="cta-band" aria-labelledby="cta-band-heading">

@@ -5,7 +5,7 @@ export const SERVICES = [
     shortTitle: 'Lawn Mowing',
     cardCopy:
       'Regular mowing, trimming, and edging so the yard stays neat through the growing season.',
-    kicker: 'Most requested',
+    kicker: 'Regular lawn care',
     featured: true,
     icon: 'mower',
     h1: 'Lawn mowing in Emporia, Kansas',

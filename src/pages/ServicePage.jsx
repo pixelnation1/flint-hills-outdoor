@@ -3,7 +3,7 @@ import {
   breadcrumbJsonLd,
   serviceJsonLd,
 } from '../data/seo.js'
-import { AREAS, getRelatedServices, getService } from '../site.js'
+import { AREAS, getRelatedServices, getService, phoneHref, PHONE_DISPLAY, textHref } from '../site.js'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
 import CtaBand from '../components/CtaBand.jsx'
 import FaqList from '../components/FaqList.jsx'
@@ -40,6 +40,11 @@ export default function ServicePage() {
           <p className="eyebrow">Service</p>
           <h1>{service.h1}</h1>
           <p className="page-lead">{service.intro}</p>
+          <div className="hero-actions page-hero-actions">
+            <a className="btn btn-tan" href={phoneHref}>Call {PHONE_DISPLAY}</a>
+            <Link className="btn btn-outline" to="/#estimate">Get a Free Estimate</Link>
+            <a className="btn btn-outline" href={textHref}>Text Rayden</a>
+          </div>
         </div>
       </header>
 
@@ -95,8 +100,8 @@ export default function ServicePage() {
         <div className="section-inner">
           <h2 id="service-areas-heading">Where we provide this service</h2>
           <p className="section-dek">
-            {service.title} is available in Emporia and the surrounding
-            communities on these pages.
+            Request {service.title.toLowerCase()} in Emporia and the surrounding
+            communities below. Share your address to confirm availability.
           </p>
           <ul className="town-list town-list-links">
             {AREAS.map((area) => (

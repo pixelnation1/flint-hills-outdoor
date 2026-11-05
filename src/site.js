@@ -26,7 +26,7 @@ export {
 export const TRUST_POINTS = [
   {
     title: 'Locally owned',
-    copy: 'Owned and operated by Rayden Wright in Emporia—not a call center.',
+    copy: 'Owned and operated by Rayden Wright, right here in Emporia.',
   },
   {
     title: 'Residential & commercial',
@@ -45,7 +45,7 @@ export const TRUST_POINTS = [
 export const REASONS = [
   {
     title: 'You deal directly with the owner',
-    copy: 'No call center or runaround. When you contact Flint Hills Outdoor Co., you’re dealing directly with the person responsible for the work.',
+    copy: 'Talk through the job with Rayden, the owner responsible for your property care.',
   },
   {
     title: 'Straightforward estimates',
